@@ -67,8 +67,15 @@ module spine {
 			if (!existingCanvas) {
 				(<HTMLElement> element).appendChild(canvas);
 			}
-			canvas.width = (<HTMLElement>element).clientWidth;
-			canvas.height = (<HTMLElement>element).clientHeight;
+			// optional custom drawing buffer sizes for retina graphics
+			if (this.config.drawingBuffer) {
+				canvas.width = this.config.drawingBuffer.width;
+				canvas.height = this.config.drawingBuffer.height;
+			}
+			else {
+				canvas.width = (<HTMLElement>element).clientWidth;
+				canvas.height = (<HTMLElement>element).clientHeight;
+			}
 			var webglConfig = { alpha: config.alpha };
 			this.context = new spine.webgl.ManagedWebGLRenderingContext(canvas, webglConfig);
 
@@ -350,6 +357,10 @@ module spine {
 		skin = "default";
 		loop = true;
 		scale = 1.0;
+		drawingBuffer = {
+			width: 0,
+			height: 0
+		};
 		x = 0;
 		y = 0;
 		alpha = true;
